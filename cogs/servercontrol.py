@@ -1,8 +1,10 @@
 import discord
-from discord.ext.commands import Cog, command
+from discord.ext.commands import Cog, command, has_any_role
 from utils import load_config
 import asyncssh
 import subprocess
+
+
 
 global_config = load_config()
 config = global_config.sftp
@@ -11,6 +13,7 @@ class server(Cog):
 
     #server command: start, stop, restart, update
     @command()
+    @has_any_role('staff', 'server mods', 'senior staff', 'fub')
     async def server(self, ctx, server, command):
 
         servers = ["eu", "us", "eumvm", "usmvm"]
@@ -166,6 +169,7 @@ class server(Cog):
 
     #command to see commands for ?server
     @command()
+    @has_any_role('staff', 'server mods', 'senior staff', 'fub')
     async def commands(self, ctx):
 
         await ctx.trigger_typing()

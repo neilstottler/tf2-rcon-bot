@@ -1,5 +1,5 @@
 import discord
-from discord.ext.commands import Cog, command
+from discord.ext.commands import Cog, command, has_any_role
 from utils import load_config
 import a2s
 from rcon import Client
@@ -20,6 +20,7 @@ class rcon(Cog):
     
     #list all servers
     @command()
+    @has_any_role('staff', 'server mods', 'senior staff', 'fub')
     async def servers(self, ctx):
         allservers = config.servers
 
@@ -32,6 +33,7 @@ class rcon(Cog):
     #rcon TODO
     #sm_say works but returns an error message in vsc because there is no return message to discord.
     @command()
+    @has_any_role('staff', 'server mods', 'senior staff', 'fub')
     async def rcon(self, ctx, server, *commands):
 
         #what servers can we rcon
@@ -110,6 +112,7 @@ class rcon(Cog):
 
     #status test command TODO
     @command()
+    @has_any_role('staff', 'server mods', 'senior staff', 'fub')
     async def status(self, ctx, server):
         await ctx.trigger_typing()
         if server == "us":
