@@ -1,0 +1,6 @@
+discord
+python-a2s
+rcon
+asyncssh
+subprocess
+asyncio
