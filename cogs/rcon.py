@@ -190,8 +190,11 @@ def get_nextmap(host, port):
         if "sm_nextmap" in x:
             splitter.append(x)
 
+    #wish I didn't have to do this
     almostthere = splitter[0]
+    #split the new list and grab the second half
     nextmap = almostthere.split(':', 1)
+    #remove the dumb '
     thenextmap = re.sub("'", ' ', nextmap[1])
     
     return thenextmap
