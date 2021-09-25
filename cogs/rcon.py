@@ -203,7 +203,6 @@ async def get_status(input):
     #name
     #uniqueid
     #adr
-
     
 
     #drops top section before names on status
