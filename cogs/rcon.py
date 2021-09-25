@@ -2,6 +2,7 @@ import discord
 from discord.ext.commands import Cog, command, has_any_role
 from utils import load_config
 import a2s
+import re
 from rcon import Client
 #https://pypi.org/project/rcon/
 
@@ -57,7 +58,7 @@ class rcon(Cog):
                     if response == "":
                         await ctx.send("Command sent.")
                     else:
-                        await ctx.send(response)
+                        await ctx.send("```\n" + response + "\n```")
             #us
             elif server == "us":
                 command = " ".join(commands)
@@ -74,7 +75,7 @@ class rcon(Cog):
                     if response == "":
                         await ctx.send("Command sent.")
                     else:
-                        await ctx.send(response)
+                        await ctx.send("```\n" + response + "\n```")
             #eumvm
             elif server == "eumvm":
                 command = " ".join(commands)
@@ -88,7 +89,7 @@ class rcon(Cog):
                     if response == "":
                         await ctx.send("Command sent.")
                     else:
-                        await ctx.send(response)
+                        await ctx.send("```\n" + response + "\n```")
             #usmvm
             elif server == "usmvm":
                 command = " ".join(commands)
@@ -102,7 +103,7 @@ class rcon(Cog):
                     if response == "":
                         await ctx.send("Command sent.")
                     else:
-                        await ctx.send(response)
+                        await ctx.send("```\n" + response + "\n```")
             #rare edge case
             else:
                 await ctx.send("How did it reach this part?")
@@ -123,15 +124,48 @@ class rcon(Cog):
             await ctx.send("eu imp")
             
             #server info
-            euserver = server_info(config.rcon.euimp.hostname, config.rcon.euimp.port)
+            euserver = server_info(config.rcon.euip, config.rcon.imp)
             await ctx.send(euserver)
 
             #player info???
-            euserverplayers = server_players(config.rcon.euimp.hostname, config.rcon.euimp.port)
+            euserverplayers = server_players(config.rcon.euip, config.rcon.imp)
             await ctx.send(euserverplayers)
+
+            #player info???
+            #eurules = get_nextmap('eu.tf2maps.net', 27015)
+            #await ctx.send(eurules)
+            #print(eurules)
 
         elif server == "eu-mvm":
             await ctx.send("eu mvm")
+        else:
+            await ctx.send("no server found")
+
+    #nextmap
+    @command()
+    @has_any_role('staff', 'server mods', 'senior staff', 'fub')
+    async def nextmap(self, ctx, server):
+        await ctx.trigger_typing()
+        if server == "us":
+
+            nextmap = get_nextmap('us.tf2maps.net', 27015)
+            await ctx.send(nextmap)
+
+        elif server == "us-mvm":
+
+            nextmap = get_nextmap('us.tf2maps.net', 27016)
+            await ctx.send(nextmap)
+
+        elif server == "eu":
+
+            nextmap = get_nextmap('eu.tf2maps.net', 27015)
+            await ctx.send(nextmap)
+
+        elif server == "eu-mvm":
+
+            nextmap = get_nextmap('eu.tf2maps.net', 27016)
+            await ctx.send(nextmap)
+        
         else:
             await ctx.send("no server found")
 
@@ -142,6 +176,25 @@ def server_info(host, port):
 #get players via a2s
 def server_players(host, port):
     return a2s.players((host, port))
+
+#get the next fucking map
+def get_nextmap(host, port):
+    rules = str(a2s.rules((host, port)))
+    
+    #turns a2s.rules into list
+    dalist = rules.split(',')
+
+    #jank ass code that grabs the sm_nextmap part of that sea of words
+    splitter = []
+    for x in dalist:
+        if "sm_nextmap" in x:
+            splitter.append(x)
+
+    almostthere = splitter[0]
+    nextmap = almostthere.split(':', 1)
+    thenextmap = re.sub("'", ' ', nextmap[1])
+    
+    return thenextmap
 
 async def get_status(input):
 

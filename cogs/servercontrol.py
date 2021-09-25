@@ -3,6 +3,8 @@ from discord.ext.commands import Cog, command, has_any_role
 from utils import load_config
 import asyncssh
 import subprocess
+import os
+import nmap
 
 
 
@@ -34,12 +36,25 @@ class server(Cog):
 
                                 await conn.run('./server start')
                                 await ctx.send("Server starting.")
+                                
+                                #be smart and actually check if the server went down :)
+                                ping = nmap.PortScanner.scan(hosts='eu.tf2maps.net', ports='27015')
+                                if ping == 1:
+                                    await ctx.send("Server is up.")
+                                else:
+                                    await ctx.send("Server did not boot.")
 
                             elif command == "stop":
 
                                 await conn.run('./server stop')
                                 await ctx.send("Stopping server.")
  
+                                #be smart and actually check if the server went down :)
+                                ping = nmap.PortScanner.scan(hosts='eu.tf2maps.net', ports='27015')
+                                if ping == 0:
+                                    await ctx.send("Server is offline.")
+                                else:
+                                    await ctx.send("Server is still up.")
                             elif command == "restart":
 
                                 await conn.run('./server restart')                                
