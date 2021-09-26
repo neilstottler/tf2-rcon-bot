@@ -5,3 +5,4 @@ asyncssh
 subprocess
 asyncio
 os
+nmap

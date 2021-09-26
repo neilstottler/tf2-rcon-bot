@@ -15,7 +15,7 @@ class server(Cog):
 
     #server command: start, stop, restart, update
     @command()
-    @has_any_role('staff', 'server mods', 'senior staff', 'fub')
+    @has_any_role('Staff', 'Server Mods', 'Senior Staff', 'Fub')
     async def server(self, ctx, server, command):
 
         servers = ["eu", "us", "eumvm", "usmvm"]
@@ -184,7 +184,7 @@ class server(Cog):
 
     #command to see commands for ?server
     @command()
-    @has_any_role('staff', 'server mods', 'senior staff', 'fub')
+    @has_any_role('Staff', 'Server Mods', 'Senior Staff', 'Fub')
     async def commands(self, ctx):
 
         await ctx.trigger_typing()
