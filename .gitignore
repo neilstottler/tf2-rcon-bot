@@ -3,3 +3,4 @@ config.yml
 *__pycache__*
 startbot.sh
 nohup.out
+*python3-nmap*
