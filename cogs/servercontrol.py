@@ -38,11 +38,11 @@ class server(Cog):
                                 await ctx.send("Server starting.")
                                 
                                 #be smart and actually check if the server went down :)
-                                ping = nmap.PortScanner.scan(hosts='eu.tf2maps.net', ports='27015')
-                                if ping == 1:
-                                    await ctx.send("Server is up.")
-                                else:
-                                    await ctx.send("Server did not boot.")
+                                #ping = nmap.PortScanner.scan(hosts='eu.tf2maps.net', ports='27015')
+                                #if ping == 1:
+                                #    await ctx.send("Server is up.")
+                                #else:
+                                #    await ctx.send("Server did not boot.")
 
                             elif command == "stop":
 
@@ -50,11 +50,11 @@ class server(Cog):
                                 await ctx.send("Stopping server.")
  
                                 #be smart and actually check if the server went down :)
-                                ping = nmap.PortScanner.scan(hosts='eu.tf2maps.net', ports='27015')
-                                if ping == 0:
-                                    await ctx.send("Server is offline.")
-                                else:
-                                    await ctx.send("Server is still up.")
+                                #ping = nmap.scan(hosts='eu.tf2maps.net', ports='27015')
+                                #if ping == 0:
+                                #    await ctx.send("Server is offline.")
+                                #else:
+                                #    await ctx.send("Server is still up.")
                             elif command == "restart":
 
                                 await conn.run('./server restart')                                
@@ -194,3 +194,20 @@ class server(Cog):
         embed.set_footer(text="TF2M RCON v1")
 
         await ctx.send(embed=embed)
+
+    #command to see commands for ?server
+    #@command()
+    #@has_any_role('Staff', 'Server Mods', 'Senior Staff', 'Fub')
+    #async def euscan(self, ctx):
+
+    #    await ctx.trigger_typing()
+
+    #    nma = nmap.PortScanner()
+
+    #    ping = nma.scan(hosts='eu.tf2maps.net', port='27015')
+
+    #    embed=discord.Embed()
+    #    embed.add_field(name="Availible Servers", value=ping)
+    #    embed.set_footer(text="TF2M RCON v1")
+
+    #    await ctx.send(embed=embed)
