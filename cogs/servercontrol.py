@@ -24,158 +24,17 @@ class server(Cog):
         if server in servers:
             #eu
             if server == "eu":
-                async with asyncssh.connect(
-                    host= config.euimp.hostname,
-                    port=config.euimp.port, 
-                    username=config.euimp.username, 
-                    password=config.euimp.password,
-                    known_hosts=None
-                    ) as conn:
-                        if command in commands:
-                            if command == "start":
-
-                                await conn.run('./server start')
-                                await ctx.send("Server starting.")
-                                
-                                #be smart and actually check if the server went down :)
-                                ping = nmap.PortScanner.scan(hosts='eu.tf2maps.net', ports='27015')
-                                if ping == 1:
-                                    await ctx.send("Server is up.")
-                                else:
-                                    await ctx.send("Server did not boot.")
-
-                            elif command == "stop":
-
-                                await conn.run('./server stop')
-                                await ctx.send("Stopping server.")
- 
-                                #be smart and actually check if the server went down :)
-                                ping = nmap.PortScanner.scan(hosts='eu.tf2maps.net', ports='27015')
-                                if ping == 0:
-                                    await ctx.send("Server is offline.")
-                                else:
-                                    await ctx.send("Server is still up.")
-                            elif command == "restart":
-
-                                await conn.run('./server restart')                                
-                                await ctx.send("Restart")
-
-                            elif command == "update":
-
-                                await conn.run('./server update')
-                                await ctx.send("Updating server.") 
-
-                            else:
-                                await ctx.send("How did you manage to break this after a checksum?")    
-
-                        else:
-                            await ctx.send("Invalid command. Check `?commands`.")
-
+                await ctx.send(server_connection("tf", "eu.tf2maps.net", 25015, command))
             #us
             elif server == "us":
-                async with asyncssh.connect(
-                    host= config.usimp.hostname,
-                    port=config.usimp.port, 
-                    username=config.usimp.username, 
-                    password=config.usimp.password,
-                    known_hosts=None
-                    ) as conn:
-                        if command in commands:
-                            if command == "start":
-
-                                await conn.run('./server start')
-                                await ctx.send("Server starting.")
-
-                            elif command == "stop":
-
-                                await conn.run('./server stop')
-                                await ctx.send("Stopping server.")
- 
-                            elif command == "restart":
-
-                                await conn.run('./server restart')                                
-                                await ctx.send("Restart")
-
-                            elif command == "update":
-
-                                await conn.run('./server update')
-                                await ctx.send("Updating server.") 
-
-                            else:
-                                await ctx.send("How did you manage to break this after a checksum?")    
-
-                        else:
-                            await ctx.send("Invalid command. Check `?commands`.")
+                await ctx.send(server_connection("tf", "us.tf2maps.net", 25015, command))
             #eumvm
             elif server == "eumvm":
-                async with asyncssh.connect(
-                    host= config.eumvm.hostname,
-                    port=config.eumvm.port, 
-                    username=config.eumvm.username, 
-                    password=config.eumvm.password,
-                    known_hosts=None
-                    ) as conn:
-                        if command in commands:
-                            if command == "start":
-
-                                await conn.run('./server start')
-                                await ctx.send("Server starting.")
-
-                            elif command == "stop":
-
-                                await conn.run('./server stop')
-                                await ctx.send("Stopping server.")
- 
-                            elif command == "restart":
-
-                                await conn.run('./server restart')                                
-                                await ctx.send("Restart")
-
-                            elif command == "update":
-
-                                await conn.run('./server update')
-                                await ctx.send("Updating server.") 
-
-                            else:
-                                await ctx.send("How did you manage to break this after a checksum?")    
-
-                        else:
-                            await ctx.send("Invalid command. Check `?commands`.")
+                await ctx.send(server_connection("mvm", "eu.tf2maps.net", 25016, command))
             #usmvm
             elif server == "usmvm":
-                async with asyncssh.connect(
-                    host= config.usmvm.hostname,
-                    port=config.usmvm.port, 
-                    username=config.usmvm.username, 
-                    password=config.usmvm.password,
-                    known_hosts=None
-                    ) as conn:
-                        if command in commands:
-                            if command == "start":
+                await ctx.send(server_connection("mvm", "us.tf2maps.net", 25016, command))
 
-                                await conn.run('./server start')
-                                await ctx.send("Server starting.")
-
-                            elif command == "stop":
-
-                                await conn.run('./server stop')
-                                await ctx.send("Stopping server.")
- 
-                            elif command == "restart":
-
-                                await conn.run('./server restart')                                
-                                await ctx.send("Restart")
-
-                            elif command == "update":
-
-                                await conn.run('./server update')
-                                await ctx.send("Updating server.") 
-
-                            else:
-                                await ctx.send("How did you manage to break this after a checksum?")    
-
-                        else:
-                            await ctx.send("Invalid command. Check `?commands`.")
             else:
                 await ctx.send("How did it reach this part?")
         else:
@@ -194,3 +53,42 @@ class server(Cog):
         embed.set_footer(text="TF2M RCON v1")
 
         await ctx.send(embed=embed)
+
+#server connecting
+async def server_connection(username, hostname, port, command):
+
+    commands = ["start", "stop", "restart", "update"]
+
+    async with asyncssh.connect(
+        host=hostname,
+        port=port, 
+        username=username, 
+        password=config.master.password,
+        known_hosts=None
+    ) as conn:
+        if command in commands:
+            if command == "start":
+
+                conn.run('./server start')
+                return "Server starting."
+
+            elif command == "stop":
+
+                conn.run('./server stop')
+                return "Stopping server."
+ 
+            elif command == "restart":
+
+                conn.run('./server restart')                                
+                return "Restarting server"
+
+            elif command == "update":
+                
+                conn.run('./server update')
+                return "Updating server."
+
+            else:
+                return "How did you manage to break this after a checksum?" 
+
+        else:
+            return "Invalid command. Check `?commands`."
