@@ -16,7 +16,7 @@ class server(Cog):
     async def server(self, ctx, server, command):
 
         servers = ["eu", "us", "eumvm", "usmvm"]
-        commands = ["start", "stop", "restart", "update"]
+        commands = ["start", "stop", "restart", "update", "ping"]
 
         if command in commands:
             if server in servers:
@@ -58,16 +58,10 @@ class server(Cog):
 
         await ctx.send(embed=embed)
 
-    #ping gameserver
-    @command()
-    @has_any_role('Staff', 'Server Mods', 'Senior Staff', 'Fub')
-    async def ping(self, ctx):
-        pass
-
 #server connecting
 async def server_connection(user, hostname, port, command):
 
-    commands = ["start", "stop", "restart", "update"]
+    commands = ["start", "stop", "restart", "update", "ping"]
 
     async with asyncssh.connect(
         hostname,
@@ -121,6 +115,12 @@ async def server_connection(user, hostname, port, command):
                 await asyncio.sleep(10)
                 if await check_port(hostname, port):
                     return "Server online and updated."
+                else:
+                    return "Server offline."
+
+            elif command == "ping":
+                if await check_port(hostname, port):
+                    return "Server online."
                 else:
                     return "Server offline."
 
