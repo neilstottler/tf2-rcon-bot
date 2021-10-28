@@ -202,14 +202,40 @@ def get_nextmap(host, port):
 async def get_status(input):
 
     #things we need to grab from status
-    #userid
-    #name
-    #uniqueid
-    #adr
+    #userid 1
+    #name 2
+    #uniqueid 3
+    #adr 8
+
+    #status header
+    header = input.split('#')[1]
+    print(header)
+    print("header")
     
+    nospaceheader = re.sub(' +', ' ', header)
+    print(nospaceheader)
+
+    headersplit = nospaceheader.split(' ')
+    del headersplit[0]
+    headersplit.remove('connected')
+    headersplit.remove('ping')
+    headersplit.remove('loss')
+    headersplit.remove('state')
+
+    print(headersplit)
 
     #drops top section before names on status
     status = "```\n" + input.split('#', 1)[1] + "\n```"
+
+    #no excess spaces
+    nospacestatus = re.sub(' +', ' ', status)
+    print(nospacestatus)
+
+
+    splitboy = input.split('#', 2)[2]
+    nospace = re.sub(' +', ' ', splitboy)
+    print(str(nospace))
+
     return status
 
 #ned to figure out how to do this to make less code
