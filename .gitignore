@@ -5,3 +5,5 @@ startbot.sh
 nohup.out
 *python3-nmap*
 .vscode/settings.json
+theirrelease.py
+test.py
