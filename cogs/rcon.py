@@ -208,35 +208,43 @@ async def get_status(input):
     #adr 8
 
     #status header
-    header = input.split('#')[1]
-    print(header)
-    print("header")
+    #header = input.split('#')[1]
+    #print(header)
+    #print("header")
     
-    nospaceheader = re.sub(' +', ' ', header)
-    print(nospaceheader)
+    #nospaceheader = re.sub(' +', ' ', header)
+    #print(nospaceheader)
 
-    headersplit = nospaceheader.split(' ')
-    del headersplit[0]
-    headersplit.remove('connected')
-    headersplit.remove('ping')
-    headersplit.remove('loss')
-    headersplit.remove('state')
+    #headersplit = nospaceheader.split(' ')
+    #print(headersplit[2])
+    #if(headersplit[2] != 'The Announcer'):
+    #    print(headersplit)
 
-    print(headersplit)
+    #    del headersplit[4:7]
+    #    del headersplit[0]
+
+    #    print('header split')
+    #    print(headersplit)
+    #else:
+    #    del headersplit[0]
+    #    del headersplit[4]
+    #    del headersplit[5]
 
     #drops top section before names on status
     status = "```\n" + input.split('#', 1)[1] + "\n```"
 
     #no excess spaces
     nospacestatus = re.sub(' +', ' ', status)
-    print(nospacestatus)
+    #print('no space status')
+    #print(nospacestatus)
 
 
-    splitboy = input.split('#', 2)[2]
-    nospace = re.sub(' +', ' ', splitboy)
-    print(str(nospace))
+    #splitboy = input.split('#', 2)[2]
+    #nospace = re.sub(' +', ' ', splitboy)
+    #print("no space")
+    #print(str(nospace))
 
-    return status
+    return nospacestatus
 
 #ned to figure out how to do this to make less code
 async def run_rcon(server, command):
