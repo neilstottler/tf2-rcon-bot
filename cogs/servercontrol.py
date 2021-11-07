@@ -16,6 +16,23 @@ class server(Cog):
     async def server(self, ctx, server, command):
 
         servers = ["eu", "us", "eumvm", "usmvm"]
+<<<<<<< HEAD
+        commands = ["start", "stop", "restart", "update"]
+
+        if server in servers:
+            #eu
+            if server == "eu":
+                await ctx.send(server_connection("tf", "eu.tf2maps.net", 25015, command))
+            #us
+            elif server == "us":
+                await ctx.send(server_connection("tf", "us.tf2maps.net", 25015, command))
+            #eumvm
+            elif server == "eumvm":
+                await ctx.send(server_connection("mvm", "eu.tf2maps.net", 25016, command))
+            #usmvm
+            elif server == "usmvm":
+                await ctx.send(server_connection("mvm", "us.tf2maps.net", 25016, command))
+=======
         commands = ["start", "stop", "restart", "update", "ping"]
 
         if command in commands:
@@ -37,6 +54,7 @@ class server(Cog):
 
                 else:
                     await ctx.send("How did it reach this part?")
+>>>>>>> 47c8f5d1055415afee0cbb55b9d94db4e495ad82
 
             else:
                 await ctx.trigger_typing()
@@ -59,6 +77,16 @@ class server(Cog):
         await ctx.send(embed=embed)
 
 #server connecting
+<<<<<<< HEAD
+async def server_connection(username, hostname, port, command):
+
+    commands = ["start", "stop", "restart", "update"]
+
+    async with asyncssh.connect(
+        host=hostname,
+        port=port, 
+        username=username, 
+=======
 async def server_connection(user, hostname, port, command):
 
     commands = ["start", "stop", "restart", "update", "ping"]
@@ -67,11 +95,38 @@ async def server_connection(user, hostname, port, command):
         hostname,
         port=22, 
         username=user, 
+>>>>>>> 47c8f5d1055415afee0cbb55b9d94db4e495ad82
         password=config.master.password,
         known_hosts=None
     ) as conn:
         if command in commands:
             if command == "start":
+<<<<<<< HEAD
+
+                await conn.run('./server start')
+                return "Server starting."
+
+            elif command == "stop":
+
+                await conn.run('./server stop')
+                return "Stopping server."
+ 
+            elif command == "restart":
+
+                await conn.run('./server restart')                                
+                return "Restart"
+
+            elif command == "update":
+                
+                await conn.run('./server update')
+                return "Updating server."
+
+            else:
+                return "How did you manage to break this after a checksum?" 
+
+        else:
+            return "Invalid command. Check `?commands`."
+=======
 
                 await conn.run('./server start')
 
@@ -143,3 +198,4 @@ async def check_port(hostname, port):
     else:
         return False
     pass
+>>>>>>> 47c8f5d1055415afee0cbb55b9d94db4e495ad82
