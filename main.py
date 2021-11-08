@@ -18,7 +18,7 @@ def main():
     #saying doesnt work????
     @bot.event
     async def on_ready():
-        channel = config.bot_channel
+        releasechannel = 843684540135505961
         await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="for !rcon"))
 
     #my attempt at understanding ctrl + c catching and not working

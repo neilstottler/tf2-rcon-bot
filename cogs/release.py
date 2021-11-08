@@ -1,7 +1,8 @@
 from asyncio.windows_events import NULL
 import discord
 from discord import client
-from discord.ext.commands import Cog, command, has_any_role
+from discord import channel
+from discord.ext.commands import Cog, bot, command, has_any_role
 from discord.ext import commands
 from utils import load_config
 
@@ -18,6 +19,9 @@ access_token_secret = None
 tf2_color = 0xB98A2E
 art_color = 0xde1f1f
 other_color = 0x868686
+
+embed = discord.Embed()
+releasechannel = 843684540135505961
 
 class twitter(Cog):
 
@@ -136,7 +140,6 @@ class twitter(Cog):
                     link = await ctx.bot.wait_for('message', check=check)
                     if(link.content == 'Y' or link.content == 'y'):
                         step = 3
-                        break
                     else:
                         await ctx.author.send('**Let us start over then.**')
                         step = 0
@@ -144,7 +147,7 @@ class twitter(Cog):
                 elif(submissioncategory == 'Other'):
                     #todo
                     msg = await ctx.author.send('**Does this look alright? Y/N**')
-                    embed = discord.Embed()
+                    
                     embed.set_author(name=submissioncategory)
                     embed.add_field(name='Content', value=submissionlink, inline=True)
                     embed.set_footer(text=global_config.bot_footer)
@@ -153,7 +156,6 @@ class twitter(Cog):
                     link = await ctx.bot.wait_for('message', check=check)
                     if(link.content == 'Y' or link.content == 'y'):
                         step = 3
-                        break
                     else:
                         await ctx.author.send('**Let us start over then.**')
                         step = 0
@@ -164,8 +166,16 @@ class twitter(Cog):
                     pass
                     break
 
+            if (step == 3):
+                break
+
         if(canceled == True):
             msg = await ctx.author.send('**Submission canceled. To resubmit type !release in #bot.**')
+        else:
+            #testing embed sending to #bot
+            print("step 3")
+            channel = commands.Bot.get_channel(self, id=releasechannel)
+            await channel.send(embed=embed)
 
 def submission_confirmation():
     pass
