@@ -13,6 +13,7 @@ def main():
     bot.add_cog(rcon())
     bot.add_cog(server())
     bot.add_cog(twitter())
+    bot.add_cog(vip())
 
     #say shit in bot channel and set status
     #saying doesnt work????
